@@ -29,11 +29,13 @@ app.use((req,res,next)=>{
 // 导入配置文件 & 解析 token 的中间件 & 使用 .unless({ path: [/^\/api\//] }) 指定哪些接口不需要进行 Token 的身份认证
 const config = require('./config')
 const expressJWT = require('express-jwt')
-app.use(expressJWT({ secret: config.jwtSecrectKey }).unless({ path: [/^\/api\//] }))
+ // app.use(expressJWT({ secret: config.jwtSecrectKey }).unless({ path: [/^\/api\//] }))
 
 //导入路由模块
 const loginRouter = require('./router/login')
 app.use('/api',loginRouter)
+const userinfoRouter = require('./router/userinfo')
+app.use('/my',userinfoRouter)
 
 
 //错误组件
