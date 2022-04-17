@@ -4,3 +4,5 @@
 
 # 这是通过ssh连接github的测试
 测试
+
+把node_modules隐藏
