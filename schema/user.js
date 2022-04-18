@@ -22,6 +22,14 @@ exports.login_schema = {
     },
 }
 
+exports.reguser_schema = {
+    body:{
+        user_name,
+        user_password,
+        course_name,
+    },
+}
+
 exports.add_user_schema = {
     body:{
         user_name,

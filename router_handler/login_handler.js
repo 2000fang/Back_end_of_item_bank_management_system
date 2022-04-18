@@ -2,7 +2,7 @@ const db = require('../db/index')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-
+//登录处理函数
 module.exports. login= (req, res)=>{
     const userinfo = req.body
     //定义sql语句
@@ -44,4 +44,9 @@ module.exports. login= (req, res)=>{
             token: 'Bearer '+ tokenStr,
         })
     })
+}
+
+//注册处理函数
+module.exports.reguser = (req, res)=>{
+    res.send('reguser ok')
 }
