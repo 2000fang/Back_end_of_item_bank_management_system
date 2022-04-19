@@ -8,7 +8,7 @@ const router = express.Router()
 const expressJoi = require('@escook/express-joi')
 
 //2.导入需要验证的规则对象
-const {add_user_schema} = require('../schema/user.js')
+const {add_user_schema, updatepwd_schema} = require('../schema/user.js')
 
 
 //导入路由处理函数模块
@@ -16,5 +16,6 @@ const routerHandler = require('../router_handler/userinfo_handler.js')
 
 router.post('/add_user',expressJoi(add_user_schema),routerHandler.add_user)
 router.get('/userinfo', routerHandler.getUserInfo)
+router.post('/updatepwd',expressJoi(updatepwd_schema), routerHandler.updatepwd)
 
 module.exports = router

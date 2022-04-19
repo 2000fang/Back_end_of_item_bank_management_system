@@ -5,6 +5,7 @@ const db_handle = require('../db/db.js')
 module.exports.add_user = (req, res)=>{
     res.send('OK')       
 }
+
 module.exports.getUserInfo = (req, res)=>{
     //定义sql语句
     const sql = 'select user_id,user_name,course_id,is_super_admin from users where user_id = ?'
@@ -23,4 +24,7 @@ module.exports.getUserInfo = (req, res)=>{
 
     })
 }
-  
+
+module.exports.updatepwd = (req, res)=>{
+    res.send('ok')
+}

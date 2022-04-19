@@ -37,3 +37,10 @@ exports.add_user_schema = {
         course_name,
     },
 }
+
+exports.updatepwd_schema = {
+    body:{
+        oldPwd: user_password,
+        newPwd: joi.not(joi.ref('oldPwd')).concat(user_password),
+    }
+}
