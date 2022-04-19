@@ -15,5 +15,6 @@ const {add_user_schema} = require('../schema/user.js')
 const routerHandler = require('../router_handler/userinfo_handler.js')
 
 router.post('/add_user',expressJoi(add_user_schema),routerHandler.add_user)
+router.get('/userinfo', routerHandler.getUserInfo)
 
 module.exports = router

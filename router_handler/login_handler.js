@@ -19,7 +19,7 @@ module.exports.login= (req, res)=>{
         if(results[0].is_super_admin === 1){
             if(results[0].user_password === userinfo.user_password){
                 //在服务端生成TOKEN字段
-                const user = {...results[0], password:'', user_pic:''}
+                const user = {...results[0], user_password:'' }
                 const tokenStr = jwt.sign(user, config.jwtSecrectKey, { expiresIn: config.expiresIn })
                 return res.send({
                     status: 0,
@@ -54,6 +54,7 @@ const userinfo = req.body
 const sqlStr = "select * from courses where course_name = ?"
 req.body.course_id = '1'
 
+//查询course_name对应的course_id
 db.query(sqlStr, userinfo.course_name, (err, results)=>{
     if(err){
         return res.cc(err)
@@ -62,9 +63,9 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
     if(results.length > 0){
         req.body.course_id = results[0].course_id
        
-        console.log('第一遍插入'+req.body.course_id)
     }
     else{
+        //不存在course_name,则插入一个course——name并获得id
         const insertsql = 'insert into courses (course_name) values(?)'
         db.query(insertsql, userinfo.course_name, (err, results)=>{
             if(err) res.cc(err)
@@ -75,11 +76,9 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
         })
         db.query(sqlStr, userinfo.course_name, (err, results)=>{
             req.body.course_id = results[0].course_id
-           
-            console.log('第二遍插入'+req.body.course_id)      
+             
         })
     }
-    //res.send('最终'+req.body.course_id)
 
     //向users表中插入数据
     //首先查询users表中是否已存在x
