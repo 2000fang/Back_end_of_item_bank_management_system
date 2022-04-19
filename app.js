@@ -36,6 +36,8 @@ const loginRouter = require('./router/login')
 app.use('/api',loginRouter)
 const userinfoRouter = require('./router/userinfo')
 app.use('/my',userinfoRouter)
+const subjectRouter = require('./router/subject')
+app.use('/my',subjectRouter)
 
 
 //错误组件
