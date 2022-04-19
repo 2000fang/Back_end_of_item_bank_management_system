@@ -5,7 +5,7 @@ const config = require('../config')
 const { UTF8MB4_CROATIAN_MYSQL561_CI } = require('mysql/lib/protocol/constants/charsets')
 const { use } = require('../router/login')
 //登录处理函数
-module.exports. login= (req, res)=>{
+module.exports.login= (req, res)=>{
     const userinfo = req.body
     //定义sql语句
     const sql = 'select * from users where user_name = ?'
@@ -53,6 +53,7 @@ module.exports.reguser = (req, res)=>{
 const userinfo = req.body
 const sqlStr = "select * from courses where course_name = ?"
 req.body.course_id = '1'
+
 db.query(sqlStr, userinfo.course_name, (err, results)=>{
     if(err){
         return res.cc(err)
@@ -60,6 +61,7 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
 
     if(results.length > 0){
         req.body.course_id = results[0].course_id
+       
         console.log('第一遍插入'+req.body.course_id)
     }
     else{
@@ -72,11 +74,12 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
             
         })
         db.query(sqlStr, userinfo.course_name, (err, results)=>{
-            req.body.course_id = results[0].course_id 
+            req.body.course_id = results[0].course_id
+           
             console.log('第二遍插入'+req.body.course_id)      
         })
     }
-   // res.send('最终'+req.body.course_id)
+    //res.send('最终'+req.body.course_id)
 
     //向users表中插入数据
     //首先查询users表中是否已存在x
@@ -86,6 +89,8 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
         if(results.length === 1) return res.cc('用户已存在，注册失败')
         else{
             const sql1 = 'insert into users (user_name,user_password,course_id) values(?,?,?)'
+            //加密密码
+            userinfo.user_password = bcrypt.hashSync(userinfo.user_password,10)
             db.query(sql1, [userinfo.user_name,userinfo.user_password,req.body.course_id],(err,results)=>{
                 if(err) return res.cc('插入用户失败')
                 if(results.affectedRows !== 1) return res.cc('插入用户失败,稍后再试')
