@@ -9,5 +9,6 @@ const routerHandler = require('../router_handler/sub_handler.js')
 
 router.get('/subject',routerHandler.getSubInfo)
 router.post('/subject/addcates',routerHandler.addSubjects)
+router.post('/subject/updatecate',routerHandler.updSubject)
 
 module.exports = router

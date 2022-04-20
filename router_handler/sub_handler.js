@@ -35,3 +35,20 @@ module.exports.addSubjects = (req, res)=>{
         
     } )
 }   
+
+//修改题目信息
+module.exports.updSubject = (req, res)=>{
+    const sql = 'update subjects set subject_type=?,subject_topic=?,subject_score=?,subject_answer=?,subject_optiona=?,subject_optionb=?,subject_optionc=?,subject_optiond=? where subject_id =? '
+    const subInfo = req.body
+
+    db.query(sql, [subInfo.subject_type,subInfo.subject_topic,subInfo.subject_score,subInfo.subject_answer,subInfo.subject_optiona,subInfo.subject_optionb,subInfo.subject_optionc,subInfo.subject_optiond,subInfo.subject_id ],(err, results)=>{
+        if(err){
+            res.cc('更新题目信息失败')
+        } 
+        res.send({
+            "status": 0,
+            "message": "更新题目成功!",
+        })
+        
+    } )
+}
