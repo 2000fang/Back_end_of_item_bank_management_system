@@ -105,3 +105,18 @@ module.exports.updatepwd = (req, res)=>{
     })
   })
 }
+
+//获取用户列表
+module.exports.getUserList = (req, res)=>{
+    if(req.user.is_super_admin){
+        const sql = 'select * from users'
+        db.query(sql,(err, results)=>{
+            if(err) return res.cc(err)
+            else{
+                return res.send(results)
+            }
+        })
+    }else{
+        res.send('用户无权限')
+    }
+}

@@ -17,5 +17,6 @@ const routerHandler = require('../router_handler/userinfo_handler.js')
 router.post('/add_user',expressJoi(add_user_schema),routerHandler.add_user)
 router.get('/userinfo', routerHandler.getUserInfo)
 router.post('/updatepwd',expressJoi(updatepwd_schema), routerHandler.updatepwd)
+router.get('/userlist', routerHandler.getUserList)
 
 module.exports = router
