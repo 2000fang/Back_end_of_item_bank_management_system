@@ -7,8 +7,9 @@ const router = express.Router()
 //导入路由处理函数模块
 const routerHandler = require('../router_handler/sub_handler.js')
 
-router.get('/subject',routerHandler.getSubInfo)
-router.post('/subject/addcates',routerHandler.addSubjects)
-router.post('/subject/updatecate',routerHandler.updSubject)
+router.get('',routerHandler.getSubInfo)
+router.post('/addcates',routerHandler.addSubjects)
+router.post('/updatecate',routerHandler.updSubject)
+router.get('/deletecate/:subject_id',routerHandler.deleSubject)
 
 module.exports = router

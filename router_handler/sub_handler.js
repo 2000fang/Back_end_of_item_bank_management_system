@@ -52,3 +52,18 @@ module.exports.updSubject = (req, res)=>{
         
     } )
 }
+
+//删除题目信息
+module.exports.deleSubject = (req, res)=>{
+    const sql = 'delete from subjects where subject_id=? '
+    db.query(sql, req.params.subject_id,(err, results)=>{
+        if(err) return res.cc(err)
+        else if(results.affectedRows!==1) res.cc('删除题目失败')
+        else{
+        res.send({
+            status: 0,
+            message: "删除题目成功",
+        })
+    }
+    })
+}
