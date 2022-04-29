@@ -101,3 +101,13 @@ db.query(sqlStr, userinfo.course_name, (err, results)=>{
 })
 
 }
+
+//获取课程列表信息函数
+module.exports.get_course_information = (req, res)=>{
+    const sql = 'select * from courses'
+    db.query(sql,(err,results)=>{
+        if(err) return res.cc(err)
+
+        res.send(results)
+    })
+}

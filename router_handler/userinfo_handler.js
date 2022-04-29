@@ -1,6 +1,7 @@
 const db = require('../db/index')
 const bcrypt = require('bcryptjs')
 const db_handle = require('../db/db.js')
+/*
 //添加用户
 module.exports.add_user = (req, res)=>{
     const userinfo = req.body
@@ -54,11 +55,33 @@ module.exports.add_user = (req, res)=>{
     })
     
 }
+*/
+
+//添加用户
+module.exports.add_user = (req, res)=>{
+    const userinfo = req.body
+    const sql = 'select * from users where user_name =?'
+    db.query(sql, userinfo.user_name,(err, results)=>{
+        if(err) return res.cc(err)
+        if(results.length === 1) return res.cc('用户已存在，注册失败')
+        else{
+            const sql1 = 'insert into users (user_name,user_password,course_name) values(?,?,?)'
+            //加密密码
+            userinfo.user_password = bcrypt.hashSync(userinfo.user_password,10)
+            db.query(sql1, [userinfo.user_name,userinfo.user_password,req.body.course_name],(err,results)=>{
+                if(err) return res.cc('插入用户失败')
+                if(results.affectedRows !== 1) return res.cc('插入用户失败,稍后再试')
+                res.cc('插入用户成功',0)
+            })
+        }     
+    })
+}
+
 
 //获取用户信息
 module.exports.getUserInfo = (req, res)=>{
     //定义sql语句
-    const sql = 'select user_id,user_name,course_id,is_super_admin from users where user_id = ?'
+    const sql = 'select user_id,user_name,course_name,is_super_admin, realname from users where user_id = ?'
     //执行sql语句
     db.query(sql, req.user.user_id,(err, results)=>{
         if(err) return res.cc(err)

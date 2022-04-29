@@ -16,5 +16,6 @@ const routerHandler = require('../router_handler/login_handler.js')
 
 router.post('/login',expressJoi(login_schema),routerHandler.login)
 router.post('/reguser',expressJoi(reguser_schema),routerHandler.reguser)
+router.get('/get_course_information', routerHandler.get_course_information)
 
 module.exports = router
