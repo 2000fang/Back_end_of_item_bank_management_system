@@ -52,6 +52,8 @@ const userinfoRouter = require('./router/userinfo')
 app.use('/my',userinfoRouter)
 const subjectRouter = require('./router/subject')
 app.use('/my/subject',subjectRouter)
+const paperRouter = require('./router/paper')
+app.use('/api', paperRouter)
 
 
 //错误组件
