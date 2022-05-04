@@ -15,62 +15,60 @@ module.exports.GeneratePaperById = async (req,res)=>{
     strId=strId.split(",")
     const len = strId.length
 
-    console.log("xxx")
-
-    // let subjects = []
-    // // //for(let i=0;i<len;i++){
-    // //     let sql=`select * from subjects where subject_id in (10,11)`
-    // //     //console.log("strid"+strId[i])
-    // //     db.query(sql, function(err, results) {
-    // //         subjects.push(results)
-    // //         console.log(subjects)
-    // //     })
-    // //}
-    
-    // let find_id_func = (sql, id) => {
-    //     return new Promise((res, rej) => {
-    //         db.query(sql, id, (err, result) => {
-    //             res(result)
-    //         })
+    let subjects = []
+    // //for(let i=0;i<len;i++){
+    //     let sql=`select * from subjects where subject_id in (10,11)`
+    //     //console.log("strid"+strId[i])
+    //     db.query(sql, function(err, results) {
+    //         subjects.push(results)
+    //         console.log(subjects)
     //     })
-    // }
+    //}
+    
+    let find_id_func = (sql, id) => {
+        return new Promise((res, rej) => {
+            db.query(sql, id, (err, result) => {
+                res(result)
+            })
+        })
+    }
 
-    // for(let i=0;i<len;i++) {
-    //     let sql = `select * from subjects where subject_id=?`
-    //     //let list = await find_id_func(sql, strId[i])
-    //     let list = await find_id_func(sql, strId[i])
-    //     //console.log(list[0])
-    //     subjects.push(list[0])
-    // }
-    // console.log(subjects)
-    let subjects = [
-        {
-            subject_id: 10,
-            course_name: '计算机网络',
-            subject_type: '判断题',
-            subject_topic: '测试是否成功？',
-            subject_score: 2,
-            subject_answer: '否',
-            subject_optiona: '',
-            subject_optionb: '',
-            subject_optionc: '',
-            subject_optiond: '',
-            subject_chaper: '概念' 
-        },
-        {
-            subject_id: 11,
-            course_name: '计算机网络',
-            subject_type: '选择题',
-            subject_topic: '交换种类',
-            subject_score: 2,
-            subject_answer: 'ABCD',
-            subject_optiona: '电路交换',
-            subject_optionb: '报文交换',
-            subject_optionc: '虚电路交换',
-            subject_optiond: '分组交换',
-            subject_chaper: '概念' 
-        }
-    ]
+    for(let i=0;i<len;i++) {
+        let sql = `select * from subjects where subject_id=?`
+        //let list = await find_id_func(sql, strId[i])
+        let list = await find_id_func(sql, strId[i])
+        //console.log(list[0])
+        subjects.push(list[0])
+    }
+    console.log(subjects)
+    // let subjects = [
+    //     {
+    //         subject_id: 10,
+    //         course_name: '计算机网络',
+    //         subject_type: '判断题',
+    //         subject_topic: '测试是否成功？',
+    //         subject_score: 2,
+    //         subject_answer: '否',
+    //         subject_optiona: '',
+    //         subject_optionb: '',
+    //         subject_optionc: '',
+    //         subject_optiond: '',
+    //         subject_chaper: '概念' 
+    //     },
+    //     {
+    //         subject_id: 11,
+    //         course_name: '计算机网络',
+    //         subject_type: '选择题',
+    //         subject_topic: '交换种类',
+    //         subject_score: 2,
+    //         subject_answer: 'ABCD',
+    //         subject_optiona: '电路交换',
+    //         subject_optionb: '报文交换',
+    //         subject_optionc: '虚电路交换',
+    //         subject_optiond: '分组交换',
+    //         subject_chaper: '概念' 
+    //     }
+    // ]
 
     let all_para = []
     for (let i=0; i<subjects.length; i++) {
@@ -126,12 +124,29 @@ module.exports.GeneratePaperById = async (req,res)=>{
     
     all_para.push(page_break)
 
-    let test_after = new Paragraph({
-        children: [
-            new TextRun(`(D)sadjhasdhaisd`),
-        ],
-    })
-    all_para.push(test_after)
+    // let test_after = new Paragraph({
+    //     children: [
+    //         new TextRun(`(D)sadjhasdhaisd`),
+    //     ],
+    // })
+    // all_para.push(test_after)
+
+    for (let i=0; i<subjects.length; i++) {
+        let title_name = new Paragraph({
+            children: [
+                new TextRun(`${i+1}. ${subjects[i].subject_answer}`),
+            ],
+        })
+       
+        let space = new Paragraph({
+            children: [
+                new TextRun(" "),
+            ],
+        })
+        all_para.push(title_name)
+        all_para.push(space)
+    }
+    
 
     const doc = new Document({
         sections: [{
